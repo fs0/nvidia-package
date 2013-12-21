@@ -1,0 +1,26 @@
+diff -urN NVIDIA-Linux-x86_64-331.20-no-compat32/kernel/nv-acpi.c NVIDIA-Linux-x86_64-331.20-no-compat32-orig/kernel/nv-acpi.c
+--- NVIDIA-Linux-x86_64-331.20-no-compat32/kernel/nv-acpi.c	2013-10-31 01:15:05.000000000 +0100
++++ NVIDIA-Linux-x86_64-331.20-no-compat32-orig/kernel/nv-acpi.c	2013-12-21 14:55:22.908173963 +0100
+@@ -301,14 +301,14 @@
+             "NVRM: nv_acpi_remove: failed to disable display switch events (%d)!\n", status);
+     }
+ 
+-    if (pNvAcpiObject->notify_handler_installed)
+-    {
+-        NV_ACPI_OS_WAIT_EVENTS_COMPLETE();
+-
+-        // remove event notifier
+-        status = acpi_remove_notify_handler(device->handle, ACPI_DEVICE_NOTIFY, nv_acpi_event);
+-    }
+-
++/*    if (pNvAcpiObject->notify_handler_installed)
++ *   {
++ *       NV_ACPI_OS_WAIT_EVENTS_COMPLETE();
++ *
++ *       // remove event notifier
++ *       status = acpi_remove_notify_handler(device->handle, ACPI_DEVICE_NOTIFY, nv_acpi_event);
++ *   }
++ */
+     if (pNvAcpiObject->notify_handler_installed &&
+         ACPI_FAILURE(status))
+     {
