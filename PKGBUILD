@@ -50,5 +50,5 @@ package() {
     sed -i -e "s/EXTRAMODULES='.*'/EXTRAMODULES='${_extramodules}'/" "${startdir}/nvidia.install"
     gzip "${pkgdir}/usr/lib/modules/${_extramodules}/nvidia.ko"
 }
-md5sums=('93bf1da5b89f7d7ace406bdfabcde4c8'
+md5sums=('f38f99f72fc34f978be01ac31ad95577'
          '28295eed56c2ca996401c0093279620f')
