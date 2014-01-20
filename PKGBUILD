@@ -1,14 +1,14 @@
-# $Id: PKGBUILD 201239 2013-12-06 15:31:07Z pierre $
+# $Id: PKGBUILD 203650 2014-01-13 17:13:38Z andyrtr $
 # Maintainer : Thomas Baechler <thomas@archlinux.org>
 
 pkgname=nvidia-custom
-pkgver=331.20
+pkgver=331.38
 _extramodules=extramodules-3.13
-pkgrel=2
-pkgdesc="NVIDIA drivers for linux"
+pkgrel=1
+pkgdesc="custom NVIDIA drivers for linux"
 arch=('i686' 'x86_64')
 url="http://www.nvidia.com/"
-depends=("nvidia-libgl" "nvidia-utils=${pkgver}")
+depends=("nvidia-libgl" "nvidia-utils")
 makedepends=()
 conflicts=('nvidia-96xx' 'nvidia-173xx')
 license=('custom')
@@ -21,12 +21,12 @@ if [ "$CARCH" = "i686" ]; then
     _arch='x86'
     _pkg="NVIDIA-Linux-${_arch}-${pkgver}"
     source+=("ftp://download.nvidia.com/XFree86/Linux-${_arch}/${pkgver}/${_pkg}.run")
-    md5sums+=('801aa04a087891690f1cac09575b2ba9')
+    md5sums+=('16aa229f7f118c8cafad6fb3f4ac082e')
 elif [ "$CARCH" = "x86_64" ]; then
     _arch='x86_64'
    _pkg="NVIDIA-Linux-${_arch}-${pkgver}-no-compat32"
     source+=("ftp://download.nvidia.com/XFree86/Linux-${_arch}/${pkgver}/${_pkg}.run")
-    md5sums+=('28295eed56c2ca996401c0093279620f')
+    md5sums+=('f2059ae373665cb6c8fb826e1173b04d')
 fi
 
 prepare() {
@@ -51,4 +51,4 @@ package() {
     gzip "${pkgdir}/usr/lib/modules/${_extramodules}/nvidia.ko"
 }
 md5sums=('f38f99f72fc34f978be01ac31ad95577'
-         '28295eed56c2ca996401c0093279620f')
+         'f2059ae373665cb6c8fb826e1173b04d')
