@@ -3,7 +3,7 @@
 
 pkgname=nvidia-custom
 pkgver=331.38
-_extramodules=extramodules-3.13
+_extramodules=extramodules-3.14
 pkgrel=1
 pkgdesc="custom NVIDIA drivers for linux"
 arch=('i686' 'x86_64')
@@ -14,8 +14,7 @@ conflicts=('nvidia-96xx' 'nvidia-173xx')
 license=('custom')
 install=nvidia.install
 options=(!strip)
-source=('nvidia-linux-3.13.patch')
-#md5sums=('d267069bc456de269424b4e1b46a3745')
+source=('nvidia-linux-3.14.patch')
 
 if [ "$CARCH" = "i686" ]; then
     _arch='x86'
@@ -38,7 +37,7 @@ prepare() {
 build() {
     _kernver="$(cat /usr/lib/modules/${_extramodules}/version)"
     cd "${srcdir}"/"${_pkg}"/kernel
-    patch -p2 < ../../nvidia-linux-3.13.patch
+    patch -p2 < ../../nvidia-linux-3.14.patch
     make SYSSRC=/usr/lib/modules/"${_kernver}/build" module
 }
 
@@ -50,5 +49,5 @@ package() {
     sed -i -e "s/EXTRAMODULES='.*'/EXTRAMODULES='${_extramodules}'/" "${startdir}/nvidia.install"
     gzip "${pkgdir}/usr/lib/modules/${_extramodules}/nvidia.ko"
 }
-md5sums=('f38f99f72fc34f978be01ac31ad95577'
+md5sums=('4b30d667e50f963f7cd2a118ffe17523'
          'f2059ae373665cb6c8fb826e1173b04d')
