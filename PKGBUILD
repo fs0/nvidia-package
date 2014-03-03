@@ -1,43 +1,40 @@
-# $Id: PKGBUILD 203650 2014-01-13 17:13:38Z andyrtr $
+# $Id: PKGBUILD 206477 2014-02-27 14:01:31Z svenstaro $
 # Maintainer : Thomas Baechler <thomas@archlinux.org>
 
 pkgname=nvidia-custom
-pkgver=331.38
+pkgver=331.49
 _extramodules=extramodules-3.14
 pkgrel=1
-pkgdesc="custom NVIDIA drivers for linux"
+pkgdesc="NVIDIA drivers for linux"
 arch=('i686' 'x86_64')
 url="http://www.nvidia.com/"
-depends=("nvidia-libgl" "nvidia-utils")
+depends=("nvidia-libgl" "nvidia-utils=${pkgver}")
 makedepends=()
 conflicts=('nvidia-96xx' 'nvidia-173xx')
 license=('custom')
 install=nvidia.install
 options=(!strip)
-source=('nvidia-linux-3.14.patch')
+source=("nvidia-linux-3.14.patch"
+        "ftp://download.nvidia.com/XFree86/Linux-x86/${pkgver}/NVIDIA-Linux-x86-${pkgver}.run"
+        "ftp://download.nvidia.com/XFree86/Linux-x86_64/${pkgver}/NVIDIA-Linux-x86_64-${pkgver}-no-compat32.run")
+md5sums=('3f23965be76bb91105916441f9cd92d3'
+         '176c77f9a10eaa652860dbc24042bff2'
+         'd0c944466a36cae8b1e23330b27a721c')
 
-if [ "$CARCH" = "i686" ]; then
-    _arch='x86'
-    _pkg="NVIDIA-Linux-${_arch}-${pkgver}"
-    source+=("ftp://download.nvidia.com/XFree86/Linux-${_arch}/${pkgver}/${_pkg}.run")
-    md5sums+=('16aa229f7f118c8cafad6fb3f4ac082e')
-elif [ "$CARCH" = "x86_64" ]; then
-    _arch='x86_64'
-   _pkg="NVIDIA-Linux-${_arch}-${pkgver}-no-compat32"
-    source+=("ftp://download.nvidia.com/XFree86/Linux-${_arch}/${pkgver}/${_pkg}.run")
-    md5sums+=('f2059ae373665cb6c8fb826e1173b04d')
-fi
+[[ "$CARCH" = "i686" ]] && _pkg="NVIDIA-Linux-x86-${pkgver}"
+[[ "$CARCH" = "x86_64" ]] && _pkg="NVIDIA-Linux-x86_64-${pkgver}-no-compat32"
 
 prepare() {
     cd "${srcdir}"
     sh "${_pkg}.run" --extract-only
     cd "${_pkg}"
+    # patches here
+    patch -p1 < ../nvidia-linux-3.14.patch
 }
 
 build() {
     _kernver="$(cat /usr/lib/modules/${_extramodules}/version)"
     cd "${srcdir}"/"${_pkg}"/kernel
-    patch -p2 < ../../nvidia-linux-3.14.patch
     make SYSSRC=/usr/lib/modules/"${_kernver}/build" module
 }
 
@@ -49,5 +46,3 @@ package() {
     sed -i -e "s/EXTRAMODULES='.*'/EXTRAMODULES='${_extramodules}'/" "${startdir}/nvidia.install"
     gzip "${pkgdir}/usr/lib/modules/${_extramodules}/nvidia.ko"
 }
-md5sums=('4b30d667e50f963f7cd2a118ffe17523'
-         'f2059ae373665cb6c8fb826e1173b04d')
