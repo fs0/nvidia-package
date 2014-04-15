@@ -1,7 +1,7 @@
 # $Id: PKGBUILD 206686 2014-03-05 02:12:05Z svenstaro $
 # Maintainer : Thomas Baechler <thomas@archlinux.org>
 
-pkgname=nvidia-custom
+pkgname=nvidia-custom_
 pkgver=334.21
 _extramodules=extramodules-3.14
 pkgrel=2
